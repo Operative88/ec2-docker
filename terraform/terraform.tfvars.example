@@ -1,0 +1,7 @@
+# cp terraform.tfvars.example terraform.tfvars and fill in:
+
+# curl -s ifconfig.me   -> add /32
+allowed_ssh_cidr    = "203.0.113.4/32"
+
+# ssh-keygen -t ed25519 -f ~/.ssh/ec2_docker -N ""
+ssh_public_key_path = "~/.ssh/ec2_docker.pub"
