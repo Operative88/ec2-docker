@@ -1,0 +1,21 @@
+#!/bin/bash
+# Runs once at first boot (cloud-init). Installs Docker, writes the app,
+# builds the image and runs it on port 80. This replaces what Ansible did.
+set -euxo pipefail
+
+apt-get update -y
+apt-get install -y docker.io
+systemctl enable --now docker
+
+mkdir -p /opt/app
+
+cat > /opt/app/index.html <<'HTML'
+${index_html}
+HTML
+
+cat > /opt/app/Dockerfile <<'DOCKER'
+${dockerfile}
+DOCKER
+
+docker build -t webapp:latest /opt/app
+docker run -d --name webapp --restart unless-stopped -p 80:80 webapp:latest
